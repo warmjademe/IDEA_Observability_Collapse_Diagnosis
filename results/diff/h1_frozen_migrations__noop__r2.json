@@ -1,0 +1,56 @@
+{
+  "task": "h1_frozen_migrations",
+  "cond": "noop",
+  "cfg": {
+    "id": "noop",
+    "cond": "noop",
+    "kf": 1,
+    "mx": 0
+  },
+  "rep": 2,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 139,
+  "n_events": 35,
+  "compression_engaged": false,
+  "read_rule": false,
+  "E_state": "never_reached",
+  "E_violated": false,
+  "E_reached": false,
+  "P_subgoals": [
+    {
+      "id": "user_field",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "order_field",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "report",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "default",
+      "correct": true,
+      "state": "correct"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": NaN,
+    "P_cover": 1.0,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 4,
+    "E": 0,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 3
+}

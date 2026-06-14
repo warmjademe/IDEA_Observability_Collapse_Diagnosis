@@ -1,0 +1,179 @@
+{
+  "tests": [
+    {
+      "task": "h1_dep_freeze",
+      "cond": "llm_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_dep_freeze",
+      "cond": "llm_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_dep_freeze",
+      "cond": "recent_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_dep_freeze",
+      "cond": "recent_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_frozen_migrations",
+      "cond": "llm_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 1.0,
+      "odds": NaN,
+      "p": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "task": "h1_frozen_migrations",
+      "cond": "llm_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 1.0,
+      "odds": NaN,
+      "p": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "task": "h1_frozen_migrations",
+      "cond": "recent_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 1.0,
+      "odds": NaN,
+      "p": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "task": "h1_frozen_migrations",
+      "cond": "recent_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 1.0,
+      "odds": NaN,
+      "p": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "task": "h1_http_helper",
+      "cond": "llm_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_http_helper",
+      "cond": "llm_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_http_helper",
+      "cond": "recent_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_http_helper",
+      "cond": "recent_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_obs_logging",
+      "cond": "llm_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_obs_logging",
+      "cond": "llm_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_obs_logging",
+      "cond": "recent_kf1_m8",
+      "outcome": "E_fail",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    },
+    {
+      "task": "h1_obs_logging",
+      "cond": "recent_kf1_m8",
+      "outcome": "never_reached",
+      "cond_fail_rate": 1.0,
+      "noop_fail_rate": 0.0,
+      "odds": Infinity,
+      "p": 0.028571428571428567,
+      "p_bh": 0.03809523809523809
+    }
+  ],
+  "pooled": {
+    "llm_kf1_m8": [
+      16,
+      0,
+      4,
+      12
+    ],
+    "recent_kf1_m8": [
+      16,
+      0,
+      4,
+      12
+    ]
+  },
+  "n_valid_runs": 48
+}

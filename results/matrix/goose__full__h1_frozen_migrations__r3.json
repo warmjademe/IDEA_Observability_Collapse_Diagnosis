@@ -1,0 +1,1 @@
+{"harness": "goose", "strength": "full", "task": "h1_frozen_migrations", "rep": 3, "valid": "invalid:no-engagement", "E_state": "never_reached", "C_violated": false, "n_files_changed": 0, "y": {"C_recover": 1.0, "E_recover": NaN, "P_cover": 0.0, "D_norepeat": 1.0}, "coverage": {"C": 4, "E": 0, "P": 4, "D": 1}}

@@ -1,0 +1,18 @@
+sut_id:        aider_ollama
+agent_name:    aider
+image:         emnlp/aider-ocd:latest
+base_model:    devstral
+proxy_url_in_container: ""
+proxy_url_local:        ""
+container_env:
+  OE_OPENAI_BASE: "http://127.0.0.1:11434/v1"   # host ollama OpenAI surface (--network=host)
+  OE_OPENAI_KEY:  "ollama"
+  OE_MODEL:       "openai/devstral:24b"
+  OE_MAX_TOKENS:  "4096"
+  OE_RUN_TIMEOUT: "600"
+  # edit_format: diff is set in the aider-ocd image's model-settings file (the
+  # per-model setting overrides the AIDER_EDIT_FORMAT env, so it must be there).
+docker_run_extra_args:
+  - "--network=host"
+  - "--cpus=2"
+  - "--memory=4g"

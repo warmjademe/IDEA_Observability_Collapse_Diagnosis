@@ -1,0 +1,17 @@
+sut_id:        mini_swe_agent_ollama
+agent_name:    mini_swe_agent
+image:         emnlp/mini-swe-agent-ocd:latest
+base_model:    devstral
+proxy_url_in_container: ""
+proxy_url_local:        ""
+container_env:
+  OE_OPENAI_BASE:  "http://127.0.0.1:11434/v1"   # host ollama OpenAI surface (--network=host)
+  OE_OPENAI_KEY:   "ollama"
+  OE_MODEL:        "openai/devstral:24b"
+  OE_MAX_TOKENS:   "4096"
+  OE_MSWEA_STEPS:  "30"
+  OE_RUN_TIMEOUT:  "600"
+docker_run_extra_args:
+  - "--network=host"
+  - "--cpus=2"
+  - "--memory=4g"

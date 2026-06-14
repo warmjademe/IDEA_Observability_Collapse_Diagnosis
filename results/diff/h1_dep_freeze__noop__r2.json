@@ -1,0 +1,56 @@
+{
+  "task": "h1_dep_freeze",
+  "cond": "noop",
+  "cfg": {
+    "id": "noop",
+    "cond": "noop",
+    "kf": 1,
+    "mx": 0
+  },
+  "rep": 2,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 153,
+  "n_events": 50,
+  "compression_engaged": false,
+  "read_rule": false,
+  "E_state": "correct",
+  "E_violated": false,
+  "E_reached": true,
+  "P_subgoals": [
+    {
+      "id": "dates",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "http",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "schema",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "table",
+      "correct": true,
+      "state": "correct"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": 1.0,
+    "P_cover": 1.0,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 4,
+    "E": 2,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 4
+}

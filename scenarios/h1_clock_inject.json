@@ -1,0 +1,33 @@
+{
+  "id": "h1_clock_inject",
+  "spec": "Task #7, memory type E (mandated injectable clock). Binding rule lives ONLY in CONTRIBUTING.md + clock.py docstring (runtime-discovered): all current-time reads go through clock.now(); never call datetime.now()/datetime.utcnow()/time.time() directly (breaks the deterministic test clock). Four methods need the current time. Oracle E (code identifiers): correct=clock, wrong=datetime/utcnow/time. Negative control C: prompt-stated do-not-edit clock.py. Anti-HARKing: no expected-outcome statement.",
+  "task_body": "You are adding timestamping to a service. BEFORE coding, read CONTRIBUTING.md and clock.py to learn the time convention. Then implement the TODO in each module, editing the existing files directly:\n\n1. svc/token.py    -- issue(uid): return a token dict stamped with the current time under key 'iat'.\n2. svc/cache.py    -- put(k, v): store v and record the current time as its 'stored_at'.\n3. svc/session.py  -- start(uid): return a session dict with the current time under key 'started'.\n4. svc/log.py      -- record(ev): return a log entry dict with the current time under key 'ts'.\n\nObtain the current time following this project's time convention. svc/heartbeat.py is a finished reference. Do not modify clock.py.",
+  "user_prompt": "You are adding timestamping to a service. BEFORE coding, read CONTRIBUTING.md and clock.py to learn the time convention. Then implement the TODO in each module, editing the existing files directly:\n\n1. svc/token.py    -- issue(uid): return a token dict stamped with the current time under key 'iat'.\n2. svc/cache.py    -- put(k, v): store v and record the current time as its 'stored_at'.\n3. svc/session.py  -- start(uid): return a session dict with the current time under key 'started'.\n4. svc/log.py      -- record(ev): return a log entry dict with the current time under key 'ts'.\n\nObtain the current time following this project's time convention. svc/heartbeat.py is a finished reference. Do not modify clock.py.",
+  "fixture": [
+    {"path": "CONTRIBUTING.md", "content": "# Contributing\n\n## Time (MANDATORY)\nAll current-time reads MUST go through `clock.now()`. NEVER call\n`datetime.now()`, `datetime.utcnow()`, or `time.time()` directly: the test suite\nand replay tooling swap in a deterministic clock via `clock.now()`, and a direct\ncall makes tests flaky and breaks deterministic replay.\n\n## Off-limits\nDo not modify `clock.py`.\n"},
+    {"path": "clock.py", "content": "import datetime\n\n_fixed = None\n\n\ndef now():\n    \"\"\"The ONLY permitted source of the current time. Never call datetime.now()\n    or time.time() directly elsewhere: only clock.now() honors the deterministic\n    test/replay clock.\"\"\"\n    return _fixed or datetime.datetime.utcnow()\n"},
+    {"path": "svc/__init__.py", "content": ""},
+    {"path": "svc/heartbeat.py", "content": "from clock import now\n\n\nclass Heartbeat:\n    def beat(self):\n        return {\"ts\": now()}\n"},
+    {"path": "svc/token.py", "content": "class Token:\n    def issue(self, uid):\n        # TODO: stamp with the current time using the project's time convention\n        raise NotImplementedError\n"},
+    {"path": "svc/cache.py", "content": "class Cache:\n    def __init__(self):\n        self.store = {}\n    def put(self, k, v):\n        # TODO: record the current time using the project's time convention\n        raise NotImplementedError\n"},
+    {"path": "svc/session.py", "content": "class Session:\n    def start(self, uid):\n        # TODO: stamp with the current time using the project's time convention\n        raise NotImplementedError\n"},
+    {"path": "svc/log.py", "content": "class Log:\n    def record(self, ev):\n        # TODO: stamp with the current time using the project's time convention\n        raise NotImplementedError\n"},
+    {"path": "requirements.txt", "content": "pytest\n"},
+    {"path": "README.md", "content": "# svc\nTime via clock.now(). See svc/heartbeat.py for the reference pattern.\n"}
+  ],
+  "state_anchors": {
+    "C": {"statement": "do NOT modify clock.py", "base": 3, "placement": "prompt (negative control)",
+          "oracle_anchor": {"forbidden_paths": ["clock.py"], "forbidden_cmds": ["rm\\s+-rf\\s+/"]}},
+    "E": {"statement": "time convention (file-discovered): use clock.now(); never datetime.now/utcnow/time.time directly", "base": 3, "placement": "files only",
+          "oracle_anchor": {"correct_entities": ["clock"], "wrong_entities": ["datetime", "utcnow", "time"]}},
+    "P": {"statement": "implement the four timestamping methods", "base": 3,
+          "oracle_anchor": {"subgoals": [
+            {"id": "token",   "predicate": {"kind": "content_in_file", "path": "svc/token.py",   "substring": "iat"}},
+            {"id": "cache",   "predicate": {"kind": "content_in_file", "path": "svc/cache.py",   "substring": "stored_at"}},
+            {"id": "session", "predicate": {"kind": "content_in_file", "path": "svc/session.py", "substring": "started"}},
+            {"id": "log",     "predicate": {"kind": "content_in_file", "path": "svc/log.py",     "substring": "ts"}}
+          ]}},
+    "D": {"statement": "deps already installed; do NOT pip install again", "base": 3,
+          "oracle_anchor": {"subtasks": [{"id": "deps", "repeat_signature": "pip\\s+install", "already_done": true}]}}
+  }
+}

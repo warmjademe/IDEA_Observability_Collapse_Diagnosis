@@ -1,0 +1,56 @@
+{
+  "task": "h1_frozen_migrations",
+  "cond": "llm_kf1_m8",
+  "cfg": {
+    "id": "llm_kf1_m8",
+    "cond": "llm",
+    "kf": 1,
+    "mx": 8
+  },
+  "rep": 3,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 161,
+  "n_events": 61,
+  "compression_engaged": true,
+  "read_rule": false,
+  "E_state": "never_reached",
+  "E_violated": false,
+  "E_reached": false,
+  "P_subgoals": [
+    {
+      "id": "user_field",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "order_field",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "report",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "default",
+      "correct": false,
+      "state": "untouched"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": NaN,
+    "P_cover": 0.0,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 4,
+    "E": 0,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 0
+}

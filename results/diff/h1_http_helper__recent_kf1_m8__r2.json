@@ -1,0 +1,56 @@
+{
+  "task": "h1_http_helper",
+  "cond": "recent_kf1_m8",
+  "cfg": {
+    "id": "recent_kf1_m8",
+    "cond": "recent",
+    "kf": 1,
+    "mx": 8
+  },
+  "rep": 2,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 128,
+  "n_events": 64,
+  "compression_engaged": true,
+  "read_rule": false,
+  "E_state": "never_reached",
+  "E_violated": false,
+  "E_reached": false,
+  "P_subgoals": [
+    {
+      "id": "weather",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "stocks",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "news",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "geo",
+      "correct": false,
+      "state": "untouched"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": NaN,
+    "P_cover": 0.25,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 2,
+    "E": 0,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 0
+}

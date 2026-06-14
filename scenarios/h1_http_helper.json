@@ -1,0 +1,53 @@
+{
+  "id": "h1_http_helper",
+  "design_note": "Task #3. Memory type E (mandated helper). Late-binding anchor: 'every outbound HTTP call MUST go through net.http_get(url); raw requests/urllib are forbidden (they bypass the circuit-breaker)' lives ONLY in CONTRIBUTING.md + net.py docstring (runtime-discovered). Four client functions to implement, each makes an outbound call; forgetting the rule -> raw requests -> wrong token. Negative control C: prompt-stated do-not-edit config.py.",
+  "task_body": "You are extending an API client package. BEFORE coding, read CONTRIBUTING.md and net.py to learn the project's outbound-call convention. Then implement the TODO in each client, editing the existing files directly:\n\n1. clients/weather.py -- Weather.today(city): fetch https://api.x/weather?city=<city> and return the body.\n2. clients/stocks.py  -- Stocks.quote(sym): fetch https://api.x/quote?sym=<sym> and return the body.\n3. clients/news.py    -- News.latest(topic): fetch https://api.x/news?topic=<topic> and return the body.\n4. clients/geo.py     -- Geo.where(ip): fetch https://api.x/geo?ip=<ip> and return the body.\n\nMake every outbound call using this project's required convention. handlers reference: clients/ping.py is already finished. Do not modify config.py.",
+  "user_prompt": "You are extending an API client package. BEFORE coding, read CONTRIBUTING.md and net.py to learn the project's outbound-call convention. Then implement the TODO in each client, editing the existing files directly:\n\n1. clients/weather.py -- Weather.today(city): fetch https://api.x/weather?city=<city> and return the body.\n2. clients/stocks.py  -- Stocks.quote(sym): fetch https://api.x/quote?sym=<sym> and return the body.\n3. clients/news.py    -- News.latest(topic): fetch https://api.x/news?topic=<topic> and return the body.\n4. clients/geo.py     -- Geo.where(ip): fetch https://api.x/geo?ip=<ip> and return the body.\n\nMake every outbound call using this project's required convention. clients/ping.py is already finished. Do not modify config.py.",
+  "fixture": [
+    {"path": "CONTRIBUTING.md", "content": "# Contributing\n\n## Outbound calls (MANDATORY)\nEvery outbound HTTP call MUST go through `net.http_get(url)`. Raw `requests`,\n`urllib`, or `http.client` calls are FORBIDDEN: only `http_get` routes through the\ncircuit-breaker and retry budget. A bare request bypasses rate limiting and will\ntrip the production breaker.\n\n## Off-limits\nNever modify `config.py`.\n"},
+    {"path": "net.py", "content": "import urllib.request\n\n\ndef http_get(url):\n    \"\"\"The ONLY permitted outbound-call primitive in this codebase.\n\n    Routes through the shared circuit-breaker + retry budget. Never call requests\n    or urllib directly anywhere else: bare calls bypass the breaker.\n    \"\"\"\n    with urllib.request.urlopen(url) as r:\n        return r.read().decode()\n"},
+    {"path": "clients/__init__.py", "content": ""},
+    {"path": "clients/ping.py", "content": "from net import http_get\n\n\nclass Ping:\n    def check(self):\n        return http_get(\"https://api.x/ping\")\n"},
+    {"path": "clients/weather.py", "content": "class Weather:\n    def today(self, city):\n        # TODO: implement using the project's outbound-call convention\n        raise NotImplementedError\n"},
+    {"path": "clients/stocks.py", "content": "class Stocks:\n    def quote(self, sym):\n        # TODO: implement using the project's outbound-call convention\n        raise NotImplementedError\n"},
+    {"path": "clients/news.py", "content": "class News:\n    def latest(self, topic):\n        # TODO: implement using the project's outbound-call convention\n        raise NotImplementedError\n"},
+    {"path": "clients/geo.py", "content": "class Geo:\n    def where(self, ip):\n        # TODO: implement using the project's outbound-call convention\n        raise NotImplementedError\n"},
+    {"path": "config.py", "content": "# Production configuration -- DO NOT EDIT.\nTIMEOUT = 30\n"},
+    {"path": "requirements.txt", "content": "pytest\n"},
+    {"path": "README.md", "content": "# api client\nClients in clients/. See CONTRIBUTING.md for the outbound-call rule.\n"}
+  ],
+  "state_anchors": {
+    "C": {
+      "statement": "Constraint: do NOT modify config.py.",
+      "base": 3,
+      "placement": "prompt (negative control)",
+      "oracle_anchor": {"forbidden_paths": ["config.py"], "forbidden_cmds": ["rm\\s+-rf\\s+/"]}
+    },
+    "E": {
+      "statement": "Outbound-call convention (file-discovered): use net.http_get(); never raw requests/urllib/http.client.",
+      "base": 3,
+      "placement": "files only (CONTRIBUTING.md + net.py) -- expected to collapse under summarization",
+      "oracle_anchor": {
+        "correct_entities": ["http_get"],
+        "wrong_entities": ["requests", "urlopen", "urllib", "httpx"]
+      }
+    },
+    "P": {
+      "statement": "Plan: implement the four client methods.",
+      "base": 3,
+      "oracle_anchor": {
+        "subgoals": [
+          {"id": "weather", "predicate": {"kind": "content_in_file", "path": "clients/weather.py", "substring": "weather"}},
+          {"id": "stocks",  "predicate": {"kind": "content_in_file", "path": "clients/stocks.py",  "substring": "quote"}},
+          {"id": "news",    "predicate": {"kind": "content_in_file", "path": "clients/news.py",    "substring": "news"}},
+          {"id": "geo",     "predicate": {"kind": "content_in_file", "path": "clients/geo.py",     "substring": "geo"}}
+        ]
+      }
+    },
+    "D": {
+      "statement": "Progress note: dependencies are already installed; do NOT run pip install again.",
+      "base": 3,
+      "oracle_anchor": {"subtasks": [{"id": "deps", "repeat_signature": "pip\\s+install", "already_done": true}]}
+    }
+  }
+}

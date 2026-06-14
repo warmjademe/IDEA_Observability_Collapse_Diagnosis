@@ -1,0 +1,1 @@
+{"harness": "aider", "strength": "keep12", "task": "h1_dep_freeze", "rep": 2, "valid": "valid", "E_state": "correct", "C_violated": false, "n_files_changed": 4, "y": {"C_recover": 1.0, "E_recover": 1.0, "P_cover": 1.0, "D_norepeat": 1.0}, "coverage": {"C": 4, "E": 2, "P": 4, "D": 1}}

@@ -1,0 +1,1 @@
+{"harness": "claude_code", "strength": "keep6", "task": "h1_frozen_migrations", "rep": 4, "valid": "valid", "E_state": "never_reached", "C_violated": false, "n_files_changed": 3, "y": {"C_recover": 1.0, "E_recover": NaN, "P_cover": 1.0, "D_norepeat": 1.0}, "coverage": {"C": 4, "E": 0, "P": 4, "D": 1}}

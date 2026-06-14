@@ -1,0 +1,57 @@
+{
+  "task": "h1_obs_logging",
+  "cond": "noop_i120",
+  "cfg": {
+    "id": "noop_i120",
+    "cond": "noop",
+    "kf": 1,
+    "mx": 0,
+    "iter": 120
+  },
+  "rep": 3,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 151,
+  "n_events": 34,
+  "compression_engaged": false,
+  "read_rule": false,
+  "E_state": "correct",
+  "E_violated": false,
+  "E_reached": true,
+  "P_subgoals": [
+    {
+      "id": "export",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "cache",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "validate",
+      "correct": true,
+      "state": "correct"
+    },
+    {
+      "id": "notify",
+      "correct": true,
+      "state": "correct"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": 1.0,
+    "P_cover": 1.0,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 4,
+    "E": 4,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 4
+}

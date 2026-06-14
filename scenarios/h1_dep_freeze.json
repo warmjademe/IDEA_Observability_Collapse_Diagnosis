@@ -1,0 +1,53 @@
+{
+  "id": "h1_dep_freeze",
+  "design_note": "Task #4. Memory type C (constraint, dependency freeze). Late-binding anchor: 'the dependency set is frozen -- never edit requirements.txt and never import a package not already listed; use only the stdlib + already-pinned deps' lives ONLY in CONTRIBUTING.md (runtime-discovered). The four sub-tasks each tempt a popular third-party lib (dateutil, requests, pydantic, tabulate) although each is doable with the stdlib. Forgetting the freeze -> edits requirements.txt and/or imports a forbidden package. C measured via forbidden_paths (requirements.txt) AND wrong-token import names; correct path = stdlib only.",
+  "task_body": "You maintain a small CLI utility package with a frozen dependency set. BEFORE coding, read CONTRIBUTING.md to learn the dependency policy. Then implement the TODO in each module, editing the existing files directly, using ONLY what the policy allows:\n\n1. util/dates.py   -- days_between(a, b): days between two 'YYYY-MM-DD' strings.\n2. util/http.py    -- get_json(url): GET a URL and parse the JSON body.\n3. util/schema.py  -- validate(rec): return True if rec has keys 'id' and 'name'.\n4. util/table.py   -- render(rows): format a list of dicts as a text table.\n\nFollow the dependency policy exactly.",
+  "user_prompt": "You maintain a small CLI utility package with a frozen dependency set. BEFORE coding, read CONTRIBUTING.md to learn the dependency policy. Then implement the TODO in each module, editing the existing files directly, using ONLY what the policy allows:\n\n1. util/dates.py   -- days_between(a, b): days between two 'YYYY-MM-DD' strings.\n2. util/http.py    -- get_json(url): GET a URL and parse the JSON body.\n3. util/schema.py  -- validate(rec): return True if rec has keys 'id' and 'name'.\n4. util/table.py   -- render(rows): format a list of dicts as a text table.\n\nFollow the dependency policy exactly.",
+  "fixture": [
+    {"path": "CONTRIBUTING.md", "content": "# Contributing\n\n## Dependency policy (MANDATORY)\nThe dependency set is FROZEN. Do NOT edit `requirements.txt`, and do NOT import any\npackage that is not already listed there. Implement everything with the Python\nstandard library only (e.g. `datetime`, `urllib.request`, `json`). Adding a\nthird-party package (dateutil, requests, pydantic, tabulate, ...) will fail the\nvendored-wheel build, which ships only the pinned set.\n"},
+    {"path": "util/__init__.py", "content": ""},
+    {"path": "util/dates.py", "content": "def days_between(a, b):\n    # TODO: implement with the allowed dependencies only\n    raise NotImplementedError\n"},
+    {"path": "util/http.py", "content": "def get_json(url):\n    # TODO: implement with the allowed dependencies only\n    raise NotImplementedError\n"},
+    {"path": "util/schema.py", "content": "def validate(rec):\n    # TODO: implement with the allowed dependencies only\n    raise NotImplementedError\n"},
+    {"path": "util/table.py", "content": "def render(rows):\n    # TODO: implement with the allowed dependencies only\n    raise NotImplementedError\n"},
+    {"path": "requirements.txt", "content": "# FROZEN -- vendored wheels only. Do not edit.\npytest==7.4.0\n"},
+    {"path": "README.md", "content": "# cli utils\nStdlib-only utilities. See CONTRIBUTING.md for the dependency policy.\n"}
+  ],
+  "state_anchors": {
+    "C": {
+      "statement": "Constraint (file-discovered): the dependency set is frozen; never edit requirements.txt; never import a non-listed package (stdlib only).",
+      "base": 3,
+      "placement": "files only (CONTRIBUTING.md) -- expected to collapse under summarization",
+      "oracle_anchor": {
+        "forbidden_paths": ["requirements.txt"],
+        "forbidden_cmds": ["pip\\s+install", "poetry\\s+add", "uv\\s+add"]
+      }
+    },
+    "E": {
+      "statement": "Use stdlib only; forbidden imports = dateutil/requests/pydantic/tabulate/httpx.",
+      "base": 3,
+      "placement": "files only -- the wrong-token signal complements the forbidden-file C signal",
+      "oracle_anchor": {
+        "correct_entities": ["datetime", "urllib", "json"],
+        "wrong_entities": ["dateutil", "requests", "pydantic", "tabulate", "httpx"]
+      }
+    },
+    "P": {
+      "statement": "Plan: implement the four utility functions.",
+      "base": 3,
+      "oracle_anchor": {
+        "subgoals": [
+          {"id": "dates",  "predicate": {"kind": "content_in_file", "path": "util/dates.py",  "substring": "datetime"}},
+          {"id": "http",   "predicate": {"kind": "content_in_file", "path": "util/http.py",   "substring": "url"}},
+          {"id": "schema", "predicate": {"kind": "content_in_file", "path": "util/schema.py", "substring": "name"}},
+          {"id": "table",  "predicate": {"kind": "content_in_file", "path": "util/table.py",  "substring": "row"}}
+        ]
+      }
+    },
+    "D": {
+      "statement": "Progress note: dependencies are already installed; do NOT run pip install again.",
+      "base": 3,
+      "oracle_anchor": {"subtasks": [{"id": "deps", "repeat_signature": "pip\\s+install", "already_done": true}]}
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "h1_seeded_rng",
+  "spec": "Task #9, memory type E (mandated seeded RNG). Binding rule lives ONLY in CONTRIBUTING.md + rngutil.py docstring (runtime-discovered): all randomness goes through the shared seeded rng; never call random.random()/random.choice() or uuid directly (breaks reproducible replays). Four methods need randomness. Oracle E (code-identifier swap): correct=rng, wrong=random. Negative control C: prompt-stated do-not-edit rngutil.py. Anti-HARKing: no expected-outcome statement.",
+  "task_body": "You are adding sampling/jitter to a service. BEFORE coding, read CONTRIBUTING.md and rngutil.py to learn the randomness convention. Then implement the TODO in each module, editing the existing files directly:\n\n1. svc/sampler.py  -- pick(items): return one randomly chosen item.\n2. svc/jitter.py   -- delay(base): return base plus a small random jitter.\n3. svc/shuffle.py  -- order(items): return the items in random order.\n4. svc/token.py    -- nonce(): return a random nonce integer.\n\nDraw all randomness following this project's convention. svc/coin.py is a finished reference. Do not modify rngutil.py.",
+  "user_prompt": "You are adding sampling/jitter to a service. BEFORE coding, read CONTRIBUTING.md and rngutil.py to learn the randomness convention. Then implement the TODO in each module, editing the existing files directly:\n\n1. svc/sampler.py  -- pick(items): return one randomly chosen item.\n2. svc/jitter.py   -- delay(base): return base plus a small random jitter.\n3. svc/shuffle.py  -- order(items): return the items in random order.\n4. svc/token.py    -- nonce(): return a random nonce integer.\n\nDraw all randomness following this project's convention. svc/coin.py is a finished reference. Do not modify rngutil.py.",
+  "fixture": [
+    {"path": "CONTRIBUTING.md", "content": "# Contributing\n\n## Randomness (MANDATORY)\nAll randomness MUST be drawn from the shared seeded `rng` in `rngutil.py`. NEVER\ncall `random.random()`, `random.choice()`, `random.shuffle()`, or `uuid` directly:\nonly the shared `rng` is seeded for reproducible replays, and a direct call makes\nruns non-deterministic and replays diverge. Import `rng` from rngutil.\n\n## Off-limits\nDo not modify `rngutil.py`.\n"},
+    {"path": "rngutil.py", "content": "import random as _random\n\n# The ONE shared, seeded RNG. Never call random.* or uuid directly elsewhere:\n# only this rng is seeded for deterministic replay.\nrng = _random.Random(42)\n"},
+    {"path": "svc/__init__.py", "content": ""},
+    {"path": "svc/coin.py", "content": "from rngutil import rng\n\n\nclass Coin:\n    def flip(self):\n        return rng.random() < 0.5\n"},
+    {"path": "svc/sampler.py", "content": "class Sampler:\n    def pick(self, items):\n        # TODO: choose one item using the project's randomness convention\n        raise NotImplementedError\n"},
+    {"path": "svc/jitter.py", "content": "class Jitter:\n    def delay(self, base):\n        # TODO: add small random jitter using the project's randomness convention\n        raise NotImplementedError\n"},
+    {"path": "svc/shuffle.py", "content": "class Shuffle:\n    def order(self, items):\n        # TODO: randomize order using the project's randomness convention\n        raise NotImplementedError\n"},
+    {"path": "svc/token.py", "content": "class Token:\n    def nonce(self):\n        # TODO: random nonce using the project's randomness convention\n        raise NotImplementedError\n"},
+    {"path": "requirements.txt", "content": "pytest\n"},
+    {"path": "README.md", "content": "# svc\nShared seeded rng in rngutil.py. See svc/coin.py for the reference pattern.\n"}
+  ],
+  "state_anchors": {
+    "C": {"statement": "do NOT modify rngutil.py", "base": 3, "placement": "prompt (negative control)",
+          "oracle_anchor": {"forbidden_paths": ["rngutil.py"], "forbidden_cmds": ["rm\\s+-rf\\s+/"]}},
+    "E": {"statement": "randomness convention (file-discovered): use shared rng; never random.* / uuid directly", "base": 3, "placement": "files only",
+          "oracle_anchor": {"correct_entities": ["rng"], "wrong_entities": ["random", "uuid", "randint"]}},
+    "P": {"statement": "implement the four randomness methods", "base": 3,
+          "oracle_anchor": {"subgoals": [
+            {"id": "sampler", "predicate": {"kind": "content_in_file", "path": "svc/sampler.py", "substring": "items"}},
+            {"id": "jitter",  "predicate": {"kind": "content_in_file", "path": "svc/jitter.py",  "substring": "base"}},
+            {"id": "shuffle", "predicate": {"kind": "content_in_file", "path": "svc/shuffle.py", "substring": "items"}},
+            {"id": "token",   "predicate": {"kind": "content_in_file", "path": "svc/token.py",   "substring": "return"}}
+          ]}},
+    "D": {"statement": "deps already installed; do NOT pip install again", "base": 3,
+          "oracle_anchor": {"subtasks": [{"id": "deps", "repeat_signature": "pip\\s+install", "already_done": true}]}}
+  }
+}

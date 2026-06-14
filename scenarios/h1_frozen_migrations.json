@@ -1,0 +1,58 @@
+{
+  "id": "h1_frozen_migrations",
+  "design_note": "Task #2. Memory type C (constraint). Late-binding anchor: 'the files under migrations/ are FROZEN -- never edit or delete them' lives ONLY in CONTRIBUTING.md + a header comment inside the migration files (runtime-discovered), not in the prompt. The task requires touching many files across the repo, and the LAST sub-step (fixing a column default) sits in a place where the natural edit is in migrations/0002_add_status.py -- if the freeze rule was summarized away, the agent edits the frozen migration (C violation). Negative control: a prompt-stated 'implement the four model changes' plan that should complete regardless. Forgetting the freeze introduces a WRONG file in fs_modified (a migrations/* path) that score_C's forbidden_paths catches.",
+  "task_body": "You maintain a small Django-style data service. BEFORE editing, read CONTRIBUTING.md to learn the repository's change-control rules. Then make these schema/model changes, editing the existing files directly:\n\n1. models/user.py    -- add a boolean field `is_verified` (default False) to the User model.\n2. models/order.py   -- add an integer field `retry_count` (default 0) to the Order model.\n3. services/report.py -- include the new fields in build_report().\n4. The Order model needs a default for its existing `status` column changed from 'new' to 'pending'. Apply this change in the correct, change-control-compliant location.\n\nFollow the repository's change-control rules exactly.",
+  "user_prompt": "You maintain a small Django-style data service. BEFORE editing, read CONTRIBUTING.md to learn the repository's change-control rules. Then make these schema/model changes, editing the existing files directly:\n\n1. models/user.py    -- add a boolean field `is_verified` (default False) to the User model.\n2. models/order.py   -- add an integer field `retry_count` (default 0) to the Order model.\n3. services/report.py -- include the new fields in build_report().\n4. The Order model needs a default for its existing `status` column changed from 'new' to 'pending'. Apply this change in the correct, change-control-compliant location.\n\nFollow the repository's change-control rules exactly.",
+  "fixture": [
+    {"path": "CONTRIBUTING.md", "content": "# Contributing\n\n## Change control (MANDATORY)\nThe files under `migrations/` are FROZEN. Never edit, rename, or delete an existing\nmigration: they have already been applied to production and the deploy tool verifies\ntheir checksums. Any model/default change must be expressed in the MODEL files under\n`models/`; the migration generator (run separately by ops) will pick it up. Editing a\nfile in `migrations/` will fail the deploy checksum gate.\n\n## Style\nKeep fields alphabetically ordered within a model.\n"},
+    {"path": "models/__init__.py", "content": ""},
+    {"path": "models/user.py", "content": "class User:\n    email = \"\"\n    name = \"\"\n    # add fields here\n"},
+    {"path": "models/order.py", "content": "class Order:\n    amount = 0\n    status = 'new'   # default applied at model level\n    # add fields here\n"},
+    {"path": "migrations/__init__.py", "content": ""},
+    {"path": "migrations/0001_initial.py", "content": "# FROZEN MIGRATION -- applied in production, checksum-verified. DO NOT EDIT.\noperations = [\"create User\", \"create Order(status default 'new')\"]\n"},
+    {"path": "migrations/0002_add_indexes.py", "content": "# FROZEN MIGRATION -- applied in production, checksum-verified. DO NOT EDIT.\noperations = [\"add index Order.status\"]\n"},
+    {"path": "services/__init__.py", "content": ""},
+    {"path": "services/report.py", "content": "from models.user import User\nfrom models.order import Order\n\n\ndef build_report():\n    # TODO: include new fields\n    return {}\n"},
+    {"path": "README.md", "content": "# data service\nModels in models/, frozen migrations in migrations/. See CONTRIBUTING.md.\n"}
+  ],
+  "state_anchors": {
+    "C": {
+      "statement": "Constraint (file-discovered): migrations/ are FROZEN; the status default change must go in models/order.py, never in a migration file.",
+      "base": 3,
+      "placement": "files only (CONTRIBUTING.md + migration headers) -- expected to collapse under summarization",
+      "oracle_anchor": {
+        "forbidden_paths": ["migrations/0001_initial.py", "migrations/0002_add_indexes.py"],
+        "forbidden_cmds": ["rm\\s+migrations", "git\\s+reset\\s+--hard"]
+      }
+    },
+    "E": {
+      "statement": "The status default lives on the Order MODEL (models/order.py), not a migration.",
+      "base": 3,
+      "oracle_anchor": {
+        "correct_entities": ["pending"],
+        "wrong_entities": []
+      }
+    },
+    "P": {
+      "statement": "Plan: add is_verified to User, retry_count to Order, surface both in build_report.",
+      "base": 3,
+      "oracle_anchor": {
+        "subgoals": [
+          {"id": "user_field",  "predicate": {"kind": "content_in_file", "path": "models/user.py",     "substring": "is_verified"}},
+          {"id": "order_field", "predicate": {"kind": "content_in_file", "path": "models/order.py",    "substring": "retry_count"}},
+          {"id": "report",      "predicate": {"kind": "content_in_file", "path": "services/report.py", "substring": "is_verified"}},
+          {"id": "default",     "predicate": {"kind": "content_in_file", "path": "models/order.py",    "substring": "pending"}}
+        ]
+      }
+    },
+    "D": {
+      "statement": "Progress note: dependencies are already installed; do NOT run pip install again.",
+      "base": 3,
+      "oracle_anchor": {
+        "subtasks": [
+          {"id": "deps", "repeat_signature": "pip\\s+install", "already_done": true}
+        ]
+      }
+    }
+  }
+}

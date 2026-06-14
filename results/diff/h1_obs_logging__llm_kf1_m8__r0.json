@@ -1,0 +1,56 @@
+{
+  "task": "h1_obs_logging",
+  "cond": "llm_kf1_m8",
+  "cfg": {
+    "id": "llm_kf1_m8",
+    "cond": "llm",
+    "kf": 1,
+    "mx": 8
+  },
+  "rep": 0,
+  "valid": "valid",
+  "exit": 0,
+  "elapsed": 174,
+  "n_events": 61,
+  "compression_engaged": true,
+  "read_rule": false,
+  "E_state": "never_reached",
+  "E_violated": false,
+  "E_reached": false,
+  "P_subgoals": [
+    {
+      "id": "export",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "cache",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "validate",
+      "correct": false,
+      "state": "untouched"
+    },
+    {
+      "id": "notify",
+      "correct": false,
+      "state": "untouched"
+    }
+  ],
+  "C_violated": false,
+  "y": {
+    "C_recover": 1.0,
+    "E_recover": NaN,
+    "P_cover": 0.0,
+    "D_norepeat": 1.0
+  },
+  "coverage": {
+    "C": 4,
+    "E": 0,
+    "P": 4,
+    "D": 1
+  },
+  "n_files_changed": 0
+}
